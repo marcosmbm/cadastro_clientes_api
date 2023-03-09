@@ -1,19 +1,22 @@
+import { User } from "@prisma/client";
 import express from "express";
+import usersControllers from "../../../controllers/users-controllers";
 
 const router = express.Router();
 
 router.post('/users', async (req, res) => {
+    let user: User = req.body;
 
-    const user = req.body;
+    try {
+        user = await usersControllers.saveUser(user);
 
-    // salvar
-    // obter o resultado (sucesso ou falha)
-    // enviar resposta
-
-    res.json({
-        success: true,
-        message: 'connected'
-    });
+        return res.status(201).json(user);
+    } 
+    catch (error) {
+        return res.status(500).json({
+            message: 'Não foi possível criar o usuário.'
+        })   
+    }
 });
 
 export default router;
