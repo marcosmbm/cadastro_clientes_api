@@ -1,6 +1,7 @@
 import express from "express";
 import UserRouter from './users';
 import AuthRouter from './auth';
+import { jwtMiddleware } from "../../middlewares/jwt-middleware";
 
 const router = express.Router();
 
@@ -11,7 +12,8 @@ router.get('/', (_, res) => {
     });
 });
 
-router.use(UserRouter);
 router.use(AuthRouter);
+router.use(jwtMiddleware);
+router.use(UserRouter);
 
 export default router;
