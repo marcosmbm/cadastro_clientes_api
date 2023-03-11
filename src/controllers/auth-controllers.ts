@@ -1,6 +1,8 @@
 import {PrismaClient, User} from '@prisma/client';
 import bcrypt from 'bcrypt';
 import usersControllers from './users-controllers';
+import * as jwt from  "jsonwebtoken";
+
 
 class AuthController{
     async signUp(user: User){
@@ -15,7 +17,11 @@ class AuthController{
         }
 
         if(bcrypt.compareSync(password, user.password)){
-            return user
+            const token = jwt.sign({
+                id: user.id
+            }, process.env.JWT_SECRET || 'secret', {expiresIn: '1h'})
+
+            return token
         }
         else{
             return undefined

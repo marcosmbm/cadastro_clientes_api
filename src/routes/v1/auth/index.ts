@@ -9,15 +9,17 @@ router.post('/sign-in', async (req, res) => {
         const {email, password} = req.body;
 
         try {
-            const user = await authControllers.signIn(email, password);
+            const token = await authControllers.signIn(email, password);
 
-            if(!user){
+            if(!token){
                 return res.status(401).json({
                     message: 'Usuário ou senha inválidos.'
                 }); 
             }
 
-            return res.json(user);
+            return res.json({
+                token: token
+            });
         } 
         catch (error) {
             return res.status(500).json({

@@ -33,6 +33,7 @@ class UsersController{
                     email: email
                 },
                 select: {
+                    id: true,
                     email: true,
                     name: true,
                     password: true
